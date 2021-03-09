@@ -6,11 +6,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { BASE_URL } from "../../constants/api";
 import FormError from "../common/FormError";
+
 const url = `${BASE_URL}/auth/local`;
 
 const schema = yup.object().shape({
-  identifier: yup.string().required("please enter  your username"),
-  password: yup.string().required("please enter  your password"),
+  identifier: yup.string().required("Please enter your username"),
+  password: yup.string().required("Please enter your password"),
 });
 
 export default function LoginForm() {
@@ -25,12 +26,9 @@ export default function LoginForm() {
   async function onSubmit(data) {
     setSubmitting(true);
     setLoginError(null);
-
     try {
       const response = await axios.post(url, data);
-      console.log(response);
       setAuth(response.data);
-      // set the auth
     } catch (error) {
       setLoginError(error.toString());
     }
@@ -47,7 +45,6 @@ export default function LoginForm() {
               <FormError>{errors.identifier.message}</FormError>
             )}
           </div>
-
           <div>
             <input
               name="password"
