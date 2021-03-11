@@ -10,19 +10,23 @@ export default function ProductsList() {
 
   const http = useAxios();
 
-  useEffect(() => {
-    async function getAllProducts() {
-      try {
-        const response = await http.get(`${BASE_URL}${PRODUCTS_ENDPOINT}`);
-        setProducts(response.data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
+  useEffect(
+    () => {
+      async function getAllProducts() {
+        try {
+          const response = await http.get(`${BASE_URL}${PRODUCTS_ENDPOINT}`);
+          setProducts(response.data);
+        } catch (error) {
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-    getAllProducts();
-  });
+      getAllProducts();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   if (loading) return <div>Loading..</div>;
   if (error) return <div>an error happened</div>;
@@ -35,6 +39,9 @@ export default function ProductsList() {
             <li key={product.id}>
               <h3>{product.title}</h3>
               <p>{product.description}</p>
+              <Link to={`/dashboard/products/edit/${product.id}`}>
+                EDIT PRODUCT
+              </Link>
             </li>
           );
         })}
